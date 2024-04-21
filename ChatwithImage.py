@@ -41,7 +41,7 @@ def input_image_setup(uploaded_file):
 
 st.set_page_config(page_title="Chat with Image | SNAPLEARN AI")
 
-st.header('Visual Solutions for Your Questions')
+st.header('Solutions for Your Visual Questions')
 
 input_text = st.text_input("Input Prompt: ", key="input")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
