@@ -11,8 +11,10 @@ from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
 
 load_dotenv()
-
+os.getenv("GOOGLE_aPI_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_aPI_KEY"))
+
+
 
 
 
@@ -34,7 +36,7 @@ def get_text_chunks(text):
 
 
 def get_vector_store(text_chunks):
-    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001", google_api_key=os.getenv("GEMINI_aPI_KEY"))
     vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
     vector_store.save_local("faiss_index")
 
@@ -61,7 +63,7 @@ def get_conversational_chain():
 
 
 def user_input(user_question):
-    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001", google_api_key=os.getenv("GEMINI_aPI_KEY"))
     
     new_db = FAISS.load_local("faiss_index", embeddings)
     docs = new_db.similarity_search(user_question)
@@ -80,8 +82,9 @@ def user_input(user_question):
 
 
 def main():
-    st.set_page_config(page_title="Chat with PDF | SNAPLEARN AI")
-    
+    st.set_page_config("Chat PDF")
+    st.header("Chat with PDF using Gemini💁")
+
     user_question = st.text_input("Ask a Question from the PDF Files")
 
     if user_question:
